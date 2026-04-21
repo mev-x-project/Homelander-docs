@@ -4,7 +4,16 @@ const sidebars = {
     'index',
     'executive-summary',
     'architecture-overview',
-    'integration-for-exchanges',
+    {
+      type: 'category',
+      label: 'Integration for Exchanges',
+      items: [
+        'integration-overview',
+        'plugin-based',
+        'universal-dex',
+        'direct-access',
+      ],
+    },
     'profit-distribution-model',
     'security-guarantees',
     'audit',
