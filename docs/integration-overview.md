@@ -6,7 +6,7 @@ Three integration paths are available depending on the protocol's AMM architectu
 
 ## Plugin-Based Integration
 
-For AMMs with native hook or plugin support — Algebra Integral, Uniswap v4, and PancakeSwap Infinity — integration is handled through a lightweight plugin contract that attaches to the pool's post-swap callback. Once the swap completes, the plugin forwards the updated pool state to the Homelander execution layer, which evaluates and executes the backrun within the same transaction.
+For AMMs with native hook or plugin support (Algebra v4, Uniswap v4, and PancakeSwap Infinity) integration is handled through a lightweight plugin contract that attaches to the pool's post-swap callback. Once the swap completes, the plugin forwards the updated pool state to the Homelander execution layer, which evaluates and executes the backrun within the same transaction.
 
 For protocols running on Algebra Integral, Homelander is available as an approved plugin in the Algebra marketplace. Installation requires a single on-chain action with no contract deployment.
 
