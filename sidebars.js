@@ -17,14 +17,15 @@ const sidebars = {
     'profit-distribution-model',
     'security-guarantees',
     {
-  type: 'category',
-  label: 'Audit',
-  items: [
-    'audit-overview',
-    'bailsec',
-    'mixbytes',
-  ],
-},
+      type: 'category',
+      label: 'Audit',
+      items: [
+        'audit-overview',
+        'bailsec',
+        'bailsec-differential',
+        'mixbytes',
+      ],
+    },
     'links-and-contacts',
   ],
 };
