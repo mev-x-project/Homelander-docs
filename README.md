@@ -7,7 +7,6 @@
 
 MEV-X Homelander is a post-swap, atomic MEV internalization framework for AMM pools. It captures the arbitrage opportunity created by every user trade and resolves it inside the same transaction — before that value can leak to external searchers, block builders, or validators.
 
-Homelander ships two ways: as a self-serve pool deployment on Uniswap v4, with no integration work required, and as a direct integration path for existing DEXs and protocols.
 
 
 ### Documentation
