@@ -11,6 +11,9 @@ const config = {
   projectName: 'Homelander-docs',
   trailingSlash: true,
   i18n: { defaultLocale: 'en', locales: ['en'] },
+  markdown: { mermaid: true },
+  themes: ['@docusaurus/theme-mermaid'],
+  plugins: [require.resolve('./llms-txt-plugin.js')],
   presets: [
     [
       'classic',

@@ -1,8 +1,7 @@
 ---
+sidebar_label: Bailsec Audit
 title: Bailsec Audit
 ---
-
-# Bailsec Audit
 
 MEV-X Homelander has undergone an independent security audit conducted by Bailsec, focused on the correctness and safety of its on-chain execution logic.
 
@@ -26,12 +25,12 @@ All reported observations were non-exploitable and related to general design ass
 
 The audit confirms that:
 
-- The contract does not introduce execution paths that allow unauthorized access to or extraction of pool funds;
-- Internal MEV execution remains isolated from the user swap flow and does not affect swap correctness;
-- Scenarios with no valid internal backrun are handled without reverting the user transaction;
-- Administrative controls allow the component to be disabled or removed by protocol governance without impacting trading functionality.
+- The contract does not introduce execution paths that allow unauthorized access to or extraction of pool funds
+- Internal MEV execution remains isolated from the user swap flow and does not affect swap correctness
+- Scenarios with no valid internal backrun are handled without reverting the user transaction
+- Administrative controls allow the component to be disabled or removed by protocol governance without impacting trading functionality
 
 ## Reports
 
-- **Full audit report:** https://github.com/bailsec/BailSec/blob/main/Bailsec%20-%20MEV-X%20-%20Plugin%20-%20Final%20Report.pdf
-- **Technical audit summary:** https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730
+- **Full audit report:** [Bailsec – MEV-X – Plugin – Final Report](https://github.com/bailsec/BailSec/blob/main/Bailsec%20-%20MEV-X%20-%20Plugin%20-%20Final%20Report.pdf)
+- **Technical audit summary:** [Medium](https://medium.com/@MEV-X/homelander-security-audit-summary-and-outcomes-a1847828f730)

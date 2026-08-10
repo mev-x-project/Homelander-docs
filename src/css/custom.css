@@ -25,4 +25,40 @@ html[data-theme='dark'] {
   height: 28px;
   width: auto;
 }
+.docusaurus-mermaid-container {
+  display: flex;
+  justify-content: center;
+  margin: 1.75rem auto;
+}
+.docusaurus-mermaid-container svg {
+  width: 100%;
+  height: auto;
+}
+/* Mermaid writes its own computed max-width as an inline style attribute on
+   the SVG, which otherwise beats any of the rules below regardless of
+   selector specificity — !important is required here, not optional. */
+.mermaid-small--fork .docusaurus-mermaid-container svg {
+  max-width: 400px !important;
+}
+.mermaid-small--loop .docusaurus-mermaid-container svg {
+  max-width: 560px !important;
+}
+.mermaid-small--sequence .docusaurus-mermaid-container svg {
+  max-width: 680px !important;
+}
+.mermaid-small--pipeline .docusaurus-mermaid-container svg {
+  max-width: 580px !important;
+}
+.mermaid-small--deployer-flow .docusaurus-mermaid-container svg {
+  max-width: 660px !important;
+}
+.mermaid-small--algebra .docusaurus-mermaid-container svg {
+  max-width: 420px !important;
+}
+.mermaid-small--universal-dex .docusaurus-mermaid-container svg {
+  max-width: 620px !important;
+}
+.mermaid-small--direct-contract .docusaurus-mermaid-container svg {
+  max-width: 400px !important;
+}
 

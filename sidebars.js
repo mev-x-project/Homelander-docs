@@ -2,25 +2,31 @@
 const sidebars = {
   mainSidebar: [
     'index',
-    'executive-summary',
     'architecture-overview',
     {
       type: 'category',
-      label: 'Integration for Exchanges',
+      label: 'Integrations',
       items: [
         'integration-overview',
-        'plugin-based',
-        'universal-dex',
-        'direct-access',
+        'for-pool-deployers',
+        'for-lp-providers',
+        {
+          type: 'category',
+          label: 'For DEXs & Protocols',
+          link: { type: 'doc', id: 'for-dexs-protocols' },
+          items: [
+            'plugin-based',
+            'universal-dex',
+            'direct-access',
+          ],
+        },
       ],
     },
-    'profit-distribution-model',
-    'security-guarantees',
     {
       type: 'category',
-      label: 'Audit',
+      label: 'Security',
       items: [
-        'audit-overview',
+        'security-overview',
         'bailsec',
         'bailsec-differential',
         'mixbytes',

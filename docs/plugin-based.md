@@ -1,75 +1,48 @@
-# Plugin-Based Integration
+---
+sidebar_label: Plugin-Based Integration
+title: Plugin-Based Integration
+---
 
-Plugin-based integration is the primary path for protocols running on AMMs that support post-swap hooks. A plugin contract connects the pool's native callback to the Homelander execution layer without requiring any changes to core pool contracts.
-
-Supported architectures: Algebra Integral, Uniswap v4, PancakeSwap Infinity.
+Plugin-based integration attaches Homelander through the AMM's own hook or plugin surface — no proxy, nothing wrapping the pool. Two frameworks support this today: Algebra Integral and PancakeSwap Infinity.
 
 ## Algebra Integral
 
-For protocols using Algebra Integral, Homelander is available as an approved plugin in the Algebra marketplace. No contract deployment is required.
+Algebra Integral supports two distinct, officially supported ways to attach a plugin to a pool. Both end at the same place — a live plugin evaluating every swap — but they differ in who can do it and when.
 
-Activate the plugin through the marketplace:
+**Manual attachment (`setPlugin`)** is the production path for existing pools, and how live partner integrations connect today.
 
-```
-https://market.algebra.finance/plugin/mevx-backrun/
-```
+<div class="mermaid-small mermaid-small--algebra">
 
-To set the plugin directly at the contract level:
-
-```
-pool.setPlugin(HOMELANDER_PLUGIN_ADDRESS)
-```
-
-That completes the integration. Homelander begins evaluating backrun opportunities on every swap through that pool automatically.
-
-## Uniswap v4
-
-For Uniswap v4, Homelander integrates as a hook deployed with `afterSwap` permission. The hook address is set in the pool key at initialization time.
-
-The hook follows the standard Uniswap v4 `BaseHook` pattern with a single active permission:
-
-```
-hook permissions:
-  afterSwap:            true
-  all others:           false
-
-afterSwap callback:
-  receive:              sender, pool key, swap params, balance delta
-  call:                 homelander.triggerBackrun(poolId, amount0, amount1, direction, recipient)
-  return:               afterSwap selector
+```mermaid
+flowchart TD
+    Start["Pool already exists"]
+    Start --> S1["setPlugin(pluginAddress)<br/>caller needs POOLS_ADMINISTRATOR_ROLE"]
+    S1 --> S2["setPluginConfigToPool()<br/>called by the plugin's owner"]
+    S2 --> Live["Plugin live —<br/>evaluating every swap"]
 ```
 
-Pool initialization with the hook:
+</div>
 
-```
-PoolKey {
-  currency0:            token0,
-  currency1:            token1,
-  fee:                  fee,
-  tickSpacing:          tickSpacing,
-  hooks:                HOMELANDER_HOOK_ADDRESS
-}
-```
+Two separate calls, from two authorities that don't have to be the same address: whoever holds the administrator role on the pool's Algebra factory attaches the plugin, then the plugin's own owner activates it. The pool enforces the order itself — activation fails until attachment has already happened.
+
+**Automatic attachment (Default Plugin Factory)** is the second mode Algebra Integral supports natively: a factory registered with an Algebra deployment can attach a plugin to every new pool at the moment it's created, without a separate `setPlugin` call. This is a real extension point in Algebra's own architecture, not a Homelander-specific workaround — where it's configured, attachment happens automatically alongside pool creation (activation is still a distinct step either way). This mode is part of Algebra's architecture; Homelander's own implementation of it is not yet part of the actively-maintained integration path documented on this site. Confirm production availability directly with the MEV-X team before relying on it.
 
 ## PancakeSwap Infinity
 
-PancakeSwap Infinity uses the same plugin architecture as Algebra Integral. The plugin is registered on the pool after deployment:
+PancakeSwap Infinity attaches differently, and more simply. There's no address-mining requirement the way Uniswap v4 has, and no separate activation call at all — the plugin address goes directly into the pool's key, and initialization validates and activates it in one step:
 
 ```
-afterSwap callback:
-  verify:               msg.sender == pool
-  call:                 homelander.triggerBackrun(poolId, amount0, amount1, direction, recipient)
+PoolKey {
+  currency0, currency1,
+  hooks:       HOMELANDER_PLUGIN_ADDRESS,
+  poolManager: CL_POOL_MANAGER,
+  fee,
+  parameters:  encodeCLParameters(tickSpacing, hookPermissions)
+}
 ```
+
+Calling `initialize` with this key deploys the pool and activates Homelander in the same transaction — there's nothing to do afterward.
 
 ## Monitoring
 
-Homelander emits a `BackrunExecuted` event on every successful capture. Filter by pool ID or config ID to track revenue from specific pools:
-
-```
-event BackrunExecuted:
-  poolId                (indexed)
-  recipient             (indexed)
-  profit
-  profitToken
-  configId              (indexed)
-```
+Both paths settle through the on-chain Profit Distributor. Whether a given settlement emits a distribution event, and its exact schema, depends on which distributor configuration your integration is registered against — get current specifics from the MEV-X team when you register your configuration, so your monitoring matches what your integration actually emits.
