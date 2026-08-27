@@ -3,7 +3,7 @@ sidebar_label: Universal DEX Integration
 title: Universal DEX Integration
 ---
 
-The Universal integration path captures arbitrage yield for DEX protocols that don't expose a native hook or plugin interface. A proxy contract wraps the existing router: the proxy executes the swap through the underlying DEX and triggers the Homelander backrun within the same transaction. No modifications to the underlying pool contracts are required.
+The Universal integration path enables MEV capture for DEX protocols that don't expose a native hook or plugin interface. A proxy contract wraps the existing router: the proxy executes the swap through the underlying DEX and triggers the Homelander backrun within the same transaction. No modifications to the underlying pool contracts are required.
 
 ## How It Works
 

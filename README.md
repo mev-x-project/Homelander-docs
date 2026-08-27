@@ -5,7 +5,7 @@
 
 ### Overview
 
-MEV-X Homelander is a yield maximization layer for AMM pools. Every user swap leaves a price dislocation behind it — a gap that's worth closing. Homelander closes it itself: a post-swap hook captures the arbitrage opportunity created by every trade and resolves it inside the same transaction, before that value can leak to external searchers, block builders, or validators, and pays it back to the pool's deployer, LPs, and protocol.
+MEV-X Homelander is a post-swap, atomic MEV internalization framework for AMM pools. It captures the arbitrage opportunity created by every user trade and resolves it inside the same transaction — before that value can leak to external searchers, block builders, or validators.
 
 
 

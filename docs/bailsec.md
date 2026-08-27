@@ -12,7 +12,7 @@ The audit reviewed the Homelander smart contract implemented in Solidity and des
 The audit focused on:
 
 - Post-swap execution flow and hook invocation logic
-- Internal arbitrage-related execution paths and control flow
+- Internal MEV-related execution paths and control flow
 - Access control assumptions and privilege boundaries
 - Failure handling and revert behavior
 - Interaction with AMM state after swap completion
@@ -26,7 +26,7 @@ All reported observations were non-exploitable and related to general design ass
 The audit confirms that:
 
 - The contract does not introduce execution paths that allow unauthorized access to or extraction of pool funds
-- Internal arbitrage execution remains isolated from the user swap flow and does not affect swap correctness
+- Internal MEV execution remains isolated from the user swap flow and does not affect swap correctness
 - Scenarios with no valid internal backrun are handled without reverting the user transaction
 - Administrative controls allow the component to be disabled or removed by protocol governance without impacting trading functionality
 
