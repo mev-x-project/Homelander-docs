@@ -1,7 +1,7 @@
 // @ts-check
 const config = {
   title: 'MEV-X Homelander',
-  tagline: 'Post-swap, atomic MEV internalization for DEXs',
+  tagline: 'Yield Maximization Layer for AMMs',
   url: 'https://mev-x-project.github.io',
   baseUrl: '/Homelander-docs/',
   onBrokenLinks: 'throw',

@@ -7,7 +7,7 @@ There's no integration step here, because there's nothing for an LP to integrate
 
 ## What Changes For You
 
-Whether a pool's captured MEV reaches its LPs depends entirely on a choice its deployer made, not on anything you do. If the deployer directed part of their share back to LPs, it shows up as elevated yield on that pool, distributed the same way trading fees already are. If they didn't, the pool behaves exactly like a pool without Homelander at all, from an LP's perspective — nothing about the mechanics of providing liquidity is different either way.
+Whether a pool's captured yield reaches its LPs depends entirely on a choice its deployer made, not on anything you do. If the deployer directed part of their share back to LPs, it shows up as elevated yield on that pool, distributed the same way trading fees already are. If they didn't, the pool behaves exactly like a pool without Homelander at all, from an LP's perspective — nothing about the mechanics of providing liquidity is different either way.
 
 There's no separate claim button and no LP-facing contract to interact with. Whatever reaches LPs arrives through the pool's existing fee-accrual mechanics, because that's precisely where it's directed.
 

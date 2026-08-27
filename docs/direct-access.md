@@ -3,7 +3,7 @@ sidebar_label: Direct Contract Integration
 title: Direct Contract Integration
 ---
 
-Direct integration lets any smart contract invoke the Homelander backrun trigger explicitly, after completing its own swap logic. This path suits protocols with custom architectures, aggregators, or any scenario that needs conditional or parameterized MEV capture.
+Direct integration lets any smart contract invoke the Homelander backrun trigger explicitly, after completing its own swap logic. This path suits protocols with custom architectures, aggregators, or any scenario that needs conditional or parameterized yield capture.
 
 ## How It Works
 

@@ -5,9 +5,15 @@ title: MEV-X Homelander
 
 ## Introduction
 
-MEV-X Homelander is a post-swap, atomic MEV internalization framework for AMM pools. Every user swap creates a short-lived arbitrage opportunity as pool balances adjust — today, that opportunity is almost always captured outside the pool that created it, by external searchers, block builders, and validators. Homelander closes that gap: a post-swap hook triggers an on-chain execution layer that detects and captures the opportunity inside the same transaction as the originating swap, before it can be broadcast, bundled, or extracted by anyone outside the system. The result is a deterministic on-chain revenue channel for the pool itself, distributed to the parties who created the opportunity — the pool's deployer, its liquidity providers, and the protocol — instead of leaking to infrastructure operators uninvolved in creating that liquidity or that trade.
+MEV-X Homelander is a yield maximization layer for AMM pools. Every user swap moves the pool's price and leaves it slightly out of step with the rest of the market — a price dislocation, and a short-lived arbitrage opportunity. Today, that opportunity is almost always captured outside the pool that created it, by external searchers, block builders, and validators; the pool itself earns nothing beyond its ordinary swap fee. Homelander closes that gap: a post-swap hook triggers an on-chain execution layer that detects and captures the opportunity inside the same transaction as the originating swap, before it can be broadcast, bundled, or extracted by anyone outside the system. The result is a deterministic on-chain revenue channel for the pool itself, distributed to the parties who created the opportunity — the pool's deployer, its liquidity providers, and the protocol — instead of leaking to infrastructure operators uninvolved in creating that liquidity or that trade.
 
 ## Economic Impact
+
+### The zero-fee principle
+
+A price dislocation has, at most, two claimants: whoever executes the arbitrage that closes it keeps a profit, and the pool keeps whatever fee it charges on that trade. Call the sum of the two the dislocation's **total combined revenue** — everything the inefficiency releases, no matter who ends up holding it. Our research, [*AMM Yield Maximization*](https://www.mev-x.com/papers/amm-yield-maximization/), shows that this total is largest when the fee on the arbitrage leg is zero: every basis point charged on top of it makes the arbitrage stop earlier, shrinking the total rather than growing the pool's share of it. At the fee that maximizes the pool's own fee revenue, over a quarter of the total is typically left unrealized — not transferred to anyone, just unclosed.
+
+A pool can't normally offer that zero fee selectively. It has no reliable way to tell an arbitrage swap from an ordinary retail one, so it either charges everyone the same fee — leaving most of a small dislocation's value unrealized — or charges no one, giving away revenue on every ordinary trade. Homelander resolves this by merging the two roles that used to be adversaries: the pool becomes its own arbitrageur. A post-swap hook lets the pool execute its own rebalancing trade at a zero fee, atomically, inside the same transaction as the swap that created the gap. Retail traders keep paying the pool's normal fee — only the pool's own internal rebalancing leg trades at zero fee — which is how the rest of the total combined revenue is recovered without giving anything away to outside traders.
 
 ### Where the value goes
 
@@ -40,7 +46,7 @@ flowchart LR
     D2 --> D3["More liquidity<br/>(TVL)"]
     D3 --> D4["More volume"]
     D4 --> D5["More backrun<br/>opportunities"]
-    D5 --> D6["More MEV captured<br/>next cycle"]
+    D5 --> D6["More yield captured<br/>next cycle"]
     D6 --> D1
 ```
 
@@ -52,7 +58,7 @@ Homelander's off-chain layer runs a reference MEV extractor alongside the produc
 
 The comparison isn't a one-off calculation. The reference extractor runs continuously against the same live pools as production, so its output reflects current market conditions, not a backtest. A separate off-chain routing layer continuously reprices candidate arbitrage paths and periodically pushes the resulting route parameters into the Router's on-chain configuration — so the routes Homelander draws from at swap time stay current with the market, not fixed at deployment.
 
-Our team ran a large-scale study of this exact question — [*The Origins of MEV: Systematic Attribution of Arbitrage Opportunity Creation at Scale*](https://arxiv.org/abs/2604.27979v1) — and found that 96.7% of arbitrage opportunities are traceable to a single source transaction, the empirical basis for capturing MEV atomically, at the point it's created.
+Our team ran a large-scale study of this exact question — [*The Origins of MEV: Systematic Attribution of Arbitrage Opportunity Creation at Scale*](https://arxiv.org/abs/2604.27979v1) — and found that 96.7% of arbitrage opportunities are traceable to a single source transaction, the empirical basis for capturing that value atomically, at the point it's created.
 
 ## Who It's For
 
@@ -66,7 +72,7 @@ Liquidity providers in a Homelander-enabled pool benefit automatically when the 
 DEX protocols, aggregators, and custom AMM architectures can attach Homelander at the protocol level — through a native hook or plugin, a router-wrapping proxy, or a direct contract call — without modifying core pool logic. This is a partner-managed integration path, with a distribution configuration negotiated at onboarding. → [For DEXs & Protocols](./for-dexs-protocols)
 
 **The Wider Ecosystem**
-Every swap through a Homelander-enabled pool trades against liquidity that compounds rather than erodes — MEV that would otherwise leave the system for validators and block builders instead strengthens the same pool's depth and pricing over time. Aggregators and routers inherit that improved liquidity automatically, and infrastructure partners — plugin marketplaces, AMM framework maintainers — can offer it as a built-in feature of their own platform, without operating any MEV infrastructure themselves.
+Every swap through a Homelander-enabled pool trades against liquidity that compounds rather than erodes — value that would otherwise leave the system for validators and block builders instead strengthens the same pool's depth and pricing over time. Aggregators and routers inherit that improved liquidity automatically, and infrastructure partners — plugin marketplaces, AMM framework maintainers — can offer it as a built-in feature of their own platform, without operating any arbitrage infrastructure themselves.
 
 ## Documentation Map
 

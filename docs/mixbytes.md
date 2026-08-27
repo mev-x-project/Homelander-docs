@@ -27,7 +27,7 @@ Three medium severity findings were identified and fully resolved prior to deplo
 The audit confirms that:
 
 - The contract does not introduce execution paths that allow unauthorized access to or extraction of pool funds
-- Internal MEV execution remains isolated from the user swap flow and does not affect swap correctness
+- Internal arbitrage execution remains isolated from the user swap flow and does not affect swap correctness
 - Scenarios with no valid internal backrun are handled without reverting the user transaction
 - Administrative controls allow the component to be disabled or removed by protocol governance without impacting trading functionality
 
